@@ -1,0 +1,6 @@
+{
+  "name": "Maktabim - Raqamli Ta'lim Portali",
+  "description": "Maktab o'quvchilari uchun shaxsiy kabinetlar, darslar jurnali, chat, sertifikatlar va yo'nalish fanlari portali.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
