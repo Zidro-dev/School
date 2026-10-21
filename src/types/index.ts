@@ -111,3 +111,19 @@ export interface SchoolAnnouncement {
   author: string;
   category: 'Olimpiada' | 'Dars jarayoni' | 'Imtihon' | 'E\'lon';
 }
+
+export interface MonitoringSurveyResponse {
+  studentId: number;
+  studentName: string;
+  classGrade: string;
+  subject1: string; // 1-asosiy fan
+  subject2: string; // 2-asosiy fan
+  targetScore: number; // e.g. 180 / 189
+  preparednessLevel: 'Yuqori (A / B2)' | 'O\'rta (B+ / B / B1)' | 'Boshlang\'ich (C+ / C)';
+  examWave: '1-to\'lqin (Noyabr monitoringi)' | '2-to\'lqin (Yanvar oraliq)' | 'Asosiy BMBA (Bahor)';
+  targetMajor: string;
+  targetUniversity: string;
+  submittedAt: string;
+  notes?: string;
+}
+

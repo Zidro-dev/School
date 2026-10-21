@@ -16,8 +16,8 @@ import { AuthSession } from '../services/storage';
 
 interface NavbarProps {
   session: AuthSession | null;
-  activeTab: 'home' | 'students' | 'journal' | 'chat' | 'certificates';
-  setActiveTab: (tab: 'home' | 'students' | 'journal' | 'chat' | 'certificates') => void;
+  activeTab: 'home' | 'students' | 'monitoring' | 'journal' | 'chat' | 'certificates';
+  setActiveTab: (tab: 'home' | 'students' | 'monitoring' | 'journal' | 'chat' | 'certificates') => void;
   onOpenLogin: () => void;
   onOpenAccountsList: () => void;
   onOpenProfile: () => void;
@@ -38,7 +38,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   return (
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between gap-8 h-16">
+        <div className="flex items-center justify-between gap-6 h-16">
           
           {/* Zone 1: Single text element wordmark with clean academic emblem */}
           <div className="flex items-center gap-3 shrink-0">
@@ -60,8 +60,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
           </div>
 
-          {/* Zone 2: 4-5 single-line clean text navigation links */}
-          <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-slate-600">
+          {/* Zone 2: 5 clean single-line text navigation links */}
+          <nav className="hidden lg:flex items-center gap-6 text-sm font-medium text-slate-600">
             <button
               onClick={() => setActiveTab('home')}
               className={`hover:text-slate-900 transition-colors whitespace-nowrap shrink-0 pb-0.5 border-b-2 ${
@@ -77,6 +77,14 @@ export const Navbar: React.FC<NavbarProps> = ({
               }`}
             >
               O'quvchilar & Fanlar
+            </button>
+            <button
+              onClick={() => setActiveTab('monitoring')}
+              className={`hover:text-slate-900 transition-colors whitespace-nowrap shrink-0 pb-0.5 border-b-2 ${
+                activeTab === 'monitoring' ? 'text-indigo-600 border-indigo-600 font-semibold' : 'border-transparent'
+              }`}
+            >
+              Monitoring So'rovnomasi
             </button>
             <button
               onClick={() => setActiveTab('journal')}
@@ -100,7 +108,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 activeTab === 'certificates' ? 'text-indigo-600 border-indigo-600 font-semibold' : 'border-transparent'
               }`}
             >
-              Sertifikatlar Ko'rgazmasi
+              Sertifikatlar
             </button>
           </nav>
 
@@ -179,6 +187,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             className={`w-full text-left px-3 py-2 text-sm rounded-md ${activeTab === 'students' ? 'bg-indigo-50 text-indigo-700 font-semibold' : 'text-slate-700'}`}
           >
             O'quvchilar & Fanlar
+          </button>
+          <button
+            onClick={() => { setActiveTab('monitoring'); setMobileMenuOpen(false); }}
+            className={`w-full text-left px-3 py-2 text-sm rounded-md ${activeTab === 'monitoring' ? 'bg-indigo-50 text-indigo-700 font-semibold' : 'text-slate-700'}`}
+          >
+            Monitoring So'rovnomasi
           </button>
           <button
             onClick={() => { setActiveTab('journal'); setMobileMenuOpen(false); }}

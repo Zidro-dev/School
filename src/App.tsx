@@ -10,6 +10,7 @@ import { StudentsSection } from './components/StudentsSection';
 import { JournalSection } from './components/JournalSection';
 import { ChatSection } from './components/ChatSection';
 import { CertificatesSection } from './components/CertificatesSection';
+import { MonitoringSection } from './components/MonitoringSection';
 import { LoginModal } from './components/LoginModal';
 import { AccountsListModal } from './components/AccountsListModal';
 import { StudentProfileModal } from './components/StudentProfileModal';
@@ -28,7 +29,7 @@ import { GraduationCap, Heart, KeyRound, ShieldCheck } from 'lucide-react';
 export default function App() {
   const [students, setStudents] = useState<Student[]>(() => getStoredStudents());
   const [session, setSession] = useState<AuthSession | null>(() => getActiveSession());
-  const [activeTab, setActiveTab] = useState<'home' | 'students' | 'journal' | 'chat' | 'certificates'>('home');
+  const [activeTab, setActiveTab] = useState<'home' | 'students' | 'monitoring' | 'journal' | 'chat' | 'certificates'>('home');
   const [schedule] = useState<ScheduleItem[]>(() => getStoredSchedule());
   const [announcements] = useState<SchoolAnnouncement[]>(() => getStoredAnnouncements());
 
@@ -133,6 +134,16 @@ export default function App() {
             students={students}
             onSelectStudent={handleSelectStudent}
             onOpenAccountsList={() => setIsAccountsListOpen(true)}
+          />
+        )}
+
+        {activeTab === 'monitoring' && (
+          <MonitoringSection
+            students={students}
+            session={session}
+            onOpenLogin={() => setIsLoginOpen(true)}
+            onSelectStudent={handleSelectStudent}
+            onRefreshData={refreshStudentsData}
           />
         )}
 

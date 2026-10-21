@@ -25,7 +25,7 @@ interface HomeHeroProps {
   onOpenAccountsList: () => void;
   onOpenProfile: () => void;
   onSelectStudent: (student: Student) => void;
-  onNavigateTab: (tab: 'home' | 'students' | 'journal' | 'chat' | 'certificates') => void;
+  onNavigateTab: (tab: 'home' | 'students' | 'monitoring' | 'journal' | 'chat' | 'certificates') => void;
 }
 
 export const HomeHero: React.FC<HomeHeroProps> = ({
@@ -94,6 +94,14 @@ export const HomeHero: React.FC<HomeHeroProps> = ({
             >
               <KeyRound className="w-4 h-4 text-amber-300" />
               <span>24 ta Login va Parollar</span>
+            </button>
+
+            <button
+              onClick={() => onNavigateTab('monitoring')}
+              className="px-4 py-2.5 bg-white/10 hover:bg-white/15 text-white border border-white/20 text-xs font-semibold rounded-xl backdrop-blur-sm transition-colors flex items-center gap-2"
+            >
+              <CheckCircle2 className="w-4 h-4 text-emerald-300" />
+              <span>Monitoring So'rovnomasi</span>
             </button>
 
             <button

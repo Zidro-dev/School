@@ -1,5 +1,5 @@
-import { Student, ChatMessage, ScheduleItem, SchoolAnnouncement, Certificate, GradeEntry } from '../types';
-import { INITIAL_STUDENTS, INITIAL_SCHEDULE, INITIAL_ANNOUNCEMENTS, INITIAL_CHAT_MESSAGES } from '../data/initialData';
+import { Student, ChatMessage, ScheduleItem, SchoolAnnouncement, Certificate, GradeEntry, MonitoringSurveyResponse } from '../types';
+import { INITIAL_STUDENTS, INITIAL_SCHEDULE, INITIAL_ANNOUNCEMENTS, INITIAL_CHAT_MESSAGES, INITIAL_MONITORING_RESPONSES } from '../data/initialData';
 
 const STORAGE_KEYS = {
   STUDENTS: 'maktab_students_v1',
@@ -7,6 +7,7 @@ const STORAGE_KEYS = {
   CHAT_MESSAGES: 'maktab_chat_v1',
   SCHEDULE: 'maktab_schedule_v1',
   ANNOUNCEMENTS: 'maktab_announcements_v1',
+  MONITORING: 'maktab_monitoring_v1',
 };
 
 export interface AuthSession {
@@ -193,3 +194,55 @@ export function addGradeToStudent(studentId: number, subjectName: string, grade:
   saveStoredStudents(all);
   return true;
 }
+
+export function getStoredMonitoringResponses(): MonitoringSurveyResponse[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEYS.MONITORING);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length >= 24) {
+        return parsed;
+      }
+    }
+  } catch (err) {
+    console.error('Error reading monitoring responses', err);
+  }
+  localStorage.setItem(STORAGE_KEYS.MONITORING, JSON.stringify(INITIAL_MONITORING_RESPONSES));
+  return INITIAL_MONITORING_RESPONSES;
+}
+
+export function saveStoredMonitoringResponses(responses: MonitoringSurveyResponse[]): void {
+  try {
+    localStorage.setItem(STORAGE_KEYS.MONITORING, JSON.stringify(responses));
+  } catch (err) {
+    console.error('Error saving monitoring responses', err);
+  }
+}
+
+export function updateStudentMonitoring(response: MonitoringSurveyResponse): boolean {
+  try {
+    const all = getStoredMonitoringResponses();
+    const idx = all.findIndex(r => r.studentId === response.studentId);
+    if (idx !== -1) {
+      all[idx] = response;
+    } else {
+      all.push(response);
+    }
+    saveStoredMonitoringResponses(all);
+
+    // Also update student's majorDirections in student record
+    const allStudents = getStoredStudents();
+    const st = allStudents.find(s => s.id === response.studentId);
+    if (st) {
+      st.majorDirections.block1.subject = response.subject1;
+      st.majorDirections.block2.subject = response.subject2;
+      st.targetUniversity = response.targetUniversity || st.targetUniversity;
+      saveStoredStudents(allStudents);
+    }
+    return true;
+  } catch (err) {
+    console.error('Error updating monitoring survey', err);
+    return false;
+  }
+}
+
